@@ -1,0 +1,24 @@
+[versions]
+kotlin = "1.5.21"
+lint = "30.0.1"
+compileSdk = "30"
+minSdk = "21"
+targetSdk = "30"
+spotless = "5.14.3"
+dependencyUpdates = "0.39.0"
+
+[plugins]
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+dependencyUpdates = { id = "com.github.ben-manes.versions", version.ref = "dependencyUpdates" }
+
+[libraries]
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+androidx-appcompat = "androidx.appcompat:appcompat:1.3.1"
+lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "lint" }
+lint-checks = { module = "com.android.tools.lint:lint-checks", version.ref = "lint" }
+lint-core = { module = "com.android.tools.lint:lint", version.ref = "lint" }
+lint-tests = { module = "com.android.tools.lint:lint-tests", version.ref = "lint" }
+junit4 = "junit:junit:4.13.2"
+
+# Gradle plugins
+plugin-androidTools = "com.android.tools.build:gradle:7.0.1"
