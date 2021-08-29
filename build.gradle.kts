@@ -8,6 +8,8 @@ buildscript {
   dependencies {
     classpath(libs.plugin.androidTools)
     classpath(kotlin("gradle-plugin", version = libs.versions.kotlin.get()))
+    classpath(libs.plugin.mavenPublish)
+    classpath(libs.plugin.dokka)
   }
 }
 

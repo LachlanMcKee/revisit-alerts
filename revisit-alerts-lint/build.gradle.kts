@@ -2,6 +2,7 @@ plugins {
   id("java-library")
   id("kotlin")
   id("com.android.lint")
+  id("com.vanniktech.maven.publish")
 }
 
 java {
