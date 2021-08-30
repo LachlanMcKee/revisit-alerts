@@ -31,8 +31,8 @@ class RevisitDateDetectorTest : LintDetectorTest() {
       expect(
         """
 src/RevisitByDateExample.java:4: Error: Revisit date has been exceeded. Date: 10 Sep 2021, Reason: Test reason [RevisitDate]
-@com.lachlanmckee.revisit.RevisitByDate(day = 10, month = Month.SEPTEMBER, year = 2021, reason = "Test reason")
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@Revisit.ByDate(day = 10, month = Revisit.Month.SEPTEMBER, year = 2021, reason = "Test reason")
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1 errors, 0 warnings
             """
       )
@@ -49,9 +49,9 @@ src/RevisitByDateExample.java:4: Error: Revisit date has been exceeded. Date: 10
     ) {
       expect(
         """
-src/RevisitFromDateExample.java:5: Error: Revisit date has been exceeded. Date: 17 Sep 2021, Reason: Test reason [RevisitDate]
-@com.lachlanmckee.revisit.RevisitFromDate(day = 10, month = Month.SEPTEMBER, year = 2021, reason = "Test reason", delay = RevisitFromDate.Delay.ONE_WEEK)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/RevisitFromDateExample.java:4: Error: Revisit date has been exceeded. Date: 17 Sep 2021, Reason: Test reason [RevisitDate]
+@Revisit.FromDate(day = 10, month = Revisit.Month.SEPTEMBER, year = 2021, reason = "Test reason", delay = Revisit.Delay.ONE_WEEK)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1 errors, 0 warnings
             """
       )
@@ -106,9 +106,9 @@ src/RevisitFromDateExample.java:5: Error: Revisit date has been exceeded. Date: 
     testDetector(
       testFile = java(
         """
-import com.lachlanmckee.revisit.Month;
+import com.lachlanmckee.revisit.Revisit;
 
-@com.lachlanmckee.revisit.RevisitByDate(day = -1, month = Month.JANUARY, year = 2020, reason = "Test reason")
+@Revisit.ByDate(day = -1, month = Revisit.Month.JANUARY, year = 2020, reason = "Test reason")
 class RevisitFromDateExample {}
 """
       ),
@@ -116,8 +116,8 @@ class RevisitFromDateExample {}
         expect(
           """
 src/RevisitFromDateExample.java:4: Error: Date is invalid [RevisitDate]
-@com.lachlanmckee.revisit.RevisitByDate(day = -1, month = Month.JANUARY, year = 2020, reason = "Test reason")
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@Revisit.ByDate(day = -1, month = Revisit.Month.JANUARY, year = 2020, reason = "Test reason")
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1 errors, 0 warnings
             """
         )
@@ -130,9 +130,9 @@ src/RevisitFromDateExample.java:4: Error: Date is invalid [RevisitDate]
     testDetector(
       testFile = java(
         """
-import com.lachlanmckee.revisit.Month;
+import com.lachlanmckee.revisit.Revisit;
 
-@com.lachlanmckee.revisit.RevisitByDate(day = 32, month = Month.JANUARY, year = 2020, reason = "Test reason")
+@Revisit.ByDate(day = 32, month = Revisit.Month.JANUARY, year = 2020, reason = "Test reason")
 class RevisitFromDateExample {}
 """
       ),
@@ -140,8 +140,8 @@ class RevisitFromDateExample {}
         expect(
           """
 src/RevisitFromDateExample.java:4: Error: Date is invalid [RevisitDate]
-@com.lachlanmckee.revisit.RevisitByDate(day = 32, month = Month.JANUARY, year = 2020, reason = "Test reason")
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@Revisit.ByDate(day = 32, month = Revisit.Month.JANUARY, year = 2020, reason = "Test reason")
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1 errors, 0 warnings
             """
         )
@@ -154,9 +154,9 @@ src/RevisitFromDateExample.java:4: Error: Date is invalid [RevisitDate]
     testDetector(
       testFile = java(
         """
-import com.lachlanmckee.revisit.Month;
+import com.lachlanmckee.revisit.Revisit;
 
-@com.lachlanmckee.revisit.RevisitByDate(day = 1, month = Month.JANUARY, year = -1, reason = "Test reason")
+@Revisit.ByDate(day = 1, month = Revisit.Month.JANUARY, year = -1, reason = "Test reason")
 class RevisitFromDateExample {}
 """
       ),
@@ -164,8 +164,8 @@ class RevisitFromDateExample {}
         expect(
           """
 src/RevisitFromDateExample.java:4: Error: Date is invalid [RevisitDate]
-@com.lachlanmckee.revisit.RevisitByDate(day = 1, month = Month.JANUARY, year = -1, reason = "Test reason")
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@Revisit.ByDate(day = 1, month = Revisit.Month.JANUARY, year = -1, reason = "Test reason")
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1 errors, 0 warnings
             """
         )
@@ -178,9 +178,9 @@ src/RevisitFromDateExample.java:4: Error: Date is invalid [RevisitDate]
     testDetector(
       testFile = java(
         """
-import com.lachlanmckee.revisit.Month;
+import com.lachlanmckee.revisit.Revisit;
 
-@com.lachlanmckee.revisit.RevisitByDate(month = Month.JANUARY, year = 2020, reason = "Test reason")
+@Revisit.ByDate(month = Revisit.Month.JANUARY, year = 2020, reason = "Test reason")
 class RevisitFromDateExample {}
 """
       ),
@@ -188,8 +188,8 @@ class RevisitFromDateExample {}
         expect(
           """
 src/RevisitFromDateExample.java:4: Error: Field 'day' was not found [RevisitDate]
-@com.lachlanmckee.revisit.RevisitByDate(month = Month.JANUARY, year = 2020, reason = "Test reason")
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@Revisit.ByDate(month = Revisit.Month.JANUARY, year = 2020, reason = "Test reason")
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1 errors, 0 warnings
             """
         )
@@ -202,16 +202,18 @@ src/RevisitFromDateExample.java:4: Error: Field 'day' was not found [RevisitDate
     testDetector(
       testFile = java(
         """
-@com.lachlanmckee.revisit.RevisitByDate(day = 1, year = 2020, reason = "Test reason")
+import com.lachlanmckee.revisit.Revisit;
+
+@Revisit.ByDate(day = 1, year = 2020, reason = "Test reason")
 class RevisitFromDateExample {}
 """
       ),
       validateFunc = {
         expect(
           """
-src/RevisitFromDateExample.java:2: Error: Field 'month' was not found [RevisitDate]
-@com.lachlanmckee.revisit.RevisitByDate(day = 1, year = 2020, reason = "Test reason")
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/RevisitFromDateExample.java:4: Error: Field 'month' was not found [RevisitDate]
+@Revisit.ByDate(day = 1, year = 2020, reason = "Test reason")
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1 errors, 0 warnings
             """
         )
@@ -224,9 +226,9 @@ src/RevisitFromDateExample.java:2: Error: Field 'month' was not found [RevisitDa
     testDetector(
       testFile = java(
         """
-import com.lachlanmckee.revisit.Month;
+import com.lachlanmckee.revisit.Revisit;
 
-@com.lachlanmckee.revisit.RevisitByDate(day = 1, month = Month.JANUARY, reason = "Test reason")
+@Revisit.ByDate(day = 1, month = Revisit.Month.JANUARY, reason = "Test reason")
 class RevisitFromDateExample {}
 """
       ),
@@ -234,8 +236,8 @@ class RevisitFromDateExample {}
         expect(
           """
 src/RevisitFromDateExample.java:4: Error: Field 'year' was not found [RevisitDate]
-@com.lachlanmckee.revisit.RevisitByDate(day = 1, month = Month.JANUARY, reason = "Test reason")
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@Revisit.ByDate(day = 1, month = Revisit.Month.JANUARY, reason = "Test reason")
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1 errors, 0 warnings
             """
         )
@@ -248,9 +250,9 @@ src/RevisitFromDateExample.java:4: Error: Field 'year' was not found [RevisitDat
     testDetector(
       testFile = java(
         """
-import com.lachlanmckee.revisit.Month;
+import com.lachlanmckee.revisit.Revisit;
 
-@com.lachlanmckee.revisit.RevisitByDate(day = 1, month = Month.JANUARY, year = 2020)
+@Revisit.ByDate(day = 1, month = Revisit.Month.JANUARY, year = 2020)
 class RevisitFromDateExample {}
 """
       ),
@@ -258,8 +260,8 @@ class RevisitFromDateExample {}
         expect(
           """
 src/RevisitFromDateExample.java:4: Error: Field 'reason' was not found [RevisitDate]
-@com.lachlanmckee.revisit.RevisitByDate(day = 1, month = Month.JANUARY, year = 2020)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@Revisit.ByDate(day = 1, month = Revisit.Month.JANUARY, year = 2020)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1 errors, 0 warnings
             """
         )
@@ -272,9 +274,9 @@ src/RevisitFromDateExample.java:4: Error: Field 'reason' was not found [RevisitD
     testDetector(
       testFile = java(
         """
-import com.lachlanmckee.revisit.Month;
+import com.lachlanmckee.revisit.Revisit;
 
-@com.lachlanmckee.revisit.RevisitFromDate(day = 1, month = Month.JANUARY, year = 2020, reason = "Test reason")
+@Revisit.FromDate(day = 1, month = Revisit.Month.JANUARY, year = 2020, reason = "Test reason")
 class RevisitFromDateExample {}
 """
       ),
@@ -282,8 +284,8 @@ class RevisitFromDateExample {}
         expect(
           """
 src/RevisitFromDateExample.java:4: Error: Field 'delay' was not found [RevisitDate]
-@com.lachlanmckee.revisit.RevisitFromDate(day = 1, month = Month.JANUARY, year = 2020, reason = "Test reason")
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@Revisit.FromDate(day = 1, month = Revisit.Month.JANUARY, year = 2020, reason = "Test reason")
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1 errors, 0 warnings
             """
         )
@@ -305,7 +307,7 @@ src/RevisitFromDateExample.java:4: Error: Field 'delay' was not found [RevisitDa
 
     validateFunc(
       lint()
-        .files(monthEnum, revisitFromDateAnnotation, testFile)
+        .files(revisitObject, testFile)
         .allowMissingSdk()
         .run()
     )
@@ -314,44 +316,54 @@ src/RevisitFromDateExample.java:4: Error: Field 'delay' was not found [RevisitDa
   private companion object {
     private val classWithRevisitByDate = java(
       """
-import com.lachlanmckee.revisit.Month;
+import com.lachlanmckee.revisit.Revisit;
 
-@com.lachlanmckee.revisit.RevisitByDate(day = 10, month = Month.SEPTEMBER, year = 2021, reason = "Test reason")
+@Revisit.ByDate(day = 10, month = Revisit.Month.SEPTEMBER, year = 2021, reason = "Test reason")
 class RevisitByDateExample {}
 """
     )
 
     private val classWithRevisitFromDate = java(
       """
-import com.lachlanmckee.revisit.Month;
-import com.lachlanmckee.revisit.RevisitFromDate;
+import com.lachlanmckee.revisit.Revisit;
 
-@com.lachlanmckee.revisit.RevisitFromDate(day = 10, month = Month.SEPTEMBER, year = 2021, reason = "Test reason", delay = RevisitFromDate.Delay.ONE_WEEK)
+@Revisit.FromDate(day = 10, month = Revisit.Month.SEPTEMBER, year = 2021, reason = "Test reason", delay = Revisit.Delay.ONE_WEEK)
 class RevisitFromDateExample {}
 """
     )
 
-    private val monthEnum = kotlin(
+    private val revisitObject = kotlin(
       """
 package com.lachlanmckee.revisit
 
-enum class Month {
-  JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER
-}
-"""
-    )
+object Revisit {
 
-    private val revisitFromDateAnnotation = kotlin(
-      """
-package com.lachlanmckee.revisit
+  /**
+   * Defines a date in future that will trigger an alert when exceeded.
+   */
+  annotation class ByDate(
+    val day: Int,
+    val month: Month,
+    val year: Int,
+    val reason: String
+  )
 
-annotation class RevisitFromDate(
-  val day: Int,
-  val month: Month,
-  val year: Int,
-  val reason: String,
-  val delay: Delay
-) {
+  /**
+   * Defines a date (usually the date the annotation is added) that will trigger an alert when the
+   * date plus the delay is exceeded.
+   */
+  annotation class FromDate(
+    val day: Int,
+    val month: Month,
+    val year: Int,
+    val reason: String,
+    val delay: Delay
+  )
+
+  enum class Month {
+    JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER
+  }
+
   enum class Delay(val days: Int = 0, val months: Int = 0, val years: Int = 0) {
     ONE_WEEK(days = 7),
     TWO_WEEKS(days = 14),

@@ -8,26 +8,24 @@ The annotations are used in the following ways:
 
 ### RevisitDate
 
-The `RevisitByDate` annotation allows you to specify a date in the future when something should be revisited.
+The `Revisit.ByDate` annotation allows you to specify a date in the future when something should be revisited.
 
 ```kotlin
-import com.lachlanmckee.revisit.Month
-import com.lachlanmckee.revisit.RevisitByDate
+import com.lachlanmckee.revisit.Revisit
 
-@RevisitByDate(day = 1, month = Month.JANUARY, year = 3000, reason = "For testing purposes")
+@Revisit.ByDate(day = 1, month = Revisit.Month.JANUARY, year = 3000, reason = "For testing purposes")
 fun foo() {
 }
 ```
 
 ### RevisitFromDate
 
-The `RevisitFromDate` annotation allows you to specify a date (typically the date which the annotation was added) and a number of days in the future when something should be revisited.
+The `Revisit.FromDate` annotation allows you to specify a date (typically the date which the annotation was added) and a number of days in the future when something should be revisited.
 
 ```kotlin
-import com.lachlanmckee.revisit.Month
-import com.lachlanmckee.revisit.RevisitFromDate
+import com.lachlanmckee.revisit.Revisit
 
-@RevisitFromDate(day = 1, month = Month.JANUARY, year = 2000, delay = RevisitFromDate.Delay.ONE_MONTH, reason = "For testing purposes")
+@Revisit.FromDate(day = 1, month = Revisit.Month.JANUARY, year = 2000, delay = Revisit.Delay.ONE_MONTH, reason = "For testing purposes")
 fun foo() {
 }
 ```
