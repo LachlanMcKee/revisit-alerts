@@ -38,12 +38,12 @@ class RevisitDateDetector : Detector(), SourceCodeScanner {
       override fun visitAnnotation(node: UAnnotation) {
         val model: Model =
           when (node.qualifiedName) {
-            "com.lachlanmckee.revisit.RevisitFromDate" -> {
+            "com.lachlanmckee.revisit.Revisit.FromDate" -> {
               getModel(context, node) {
                 getEnumValue("delay", Delay::valueOf)
               }
             }
-            "com.lachlanmckee.revisit.RevisitByDate" -> {
+            "com.lachlanmckee.revisit.Revisit.ByDate" -> {
               getModel(context, node)
             }
             else -> null
