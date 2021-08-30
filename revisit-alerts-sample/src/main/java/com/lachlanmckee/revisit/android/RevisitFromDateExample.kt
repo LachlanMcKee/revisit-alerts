@@ -1,9 +1,16 @@
 package com.lachlanmckee.revisit.android
 
 import android.annotation.SuppressLint
+import com.lachlanmckee.revisit.Month
 import com.lachlanmckee.revisit.RevisitFromDate
 
 // Remove suppress to see demonstrate lint rule.
 @SuppressLint("RevisitDate")
-@RevisitFromDate(year = 1999, month = 1, day = 1, reason = "For testing purposes", daysInFuture = 10)
+@RevisitFromDate(
+  day = 1,
+  month = Month.JANUARY,
+  year = 1999,
+  reason = "For testing purposes",
+  delay = RevisitFromDate.Delay.ONE_MONTH
+)
 class RevisitFromDateExample

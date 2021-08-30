@@ -5,7 +5,7 @@ package com.lachlanmckee.revisit
  */
 annotation class RevisitByDate(
   val day: Int,
-  val month: Int,
+  val month: Month,
   val year: Int,
   val reason: String
 )
