@@ -74,7 +74,7 @@ class RevisitDateDetector : Detector(), SourceCodeScanner {
     annotation: UAnnotation,
     delayFunc: ModelMapper.() -> Delay? = { null }
   ): Model? =
-    AnnotationMapper().mapToModel(context, annotation) {
+    AnnotationMapper().mapToModel(context, annotation, ISSUE) {
       Model(
         day = getIntegerValue("day"),
         month = getEnumValue("month", Month::valueOf),

@@ -1,8 +1,8 @@
 package com.lachlanmckee.revisit
 
 import com.android.tools.lint.checks.findSelector
+import com.android.tools.lint.detector.api.Issue
 import com.android.tools.lint.detector.api.JavaContext
-import com.lachlanmckee.revisit.date.RevisitDateDetector
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UExpression
 import org.jetbrains.uast.UNamedExpression
@@ -10,6 +10,7 @@ import org.jetbrains.uast.UNamedExpression
 class ModelMapper(
   private val context: JavaContext,
   private val node: UAnnotation,
+  private val issue: Issue,
   private val fields: List<UNamedExpression>
 ) {
   fun getIntegerValue(fieldName: String, reportError: Boolean = true): Int =
@@ -30,7 +31,7 @@ class ModelMapper(
       enumMapper(value)
     } catch (e: Exception) {
       context.report(
-        issue = RevisitDateDetector.ISSUE,
+        issue = issue,
         scope = node,
         location = context.getLocation(field),
         message = "Invalid enum value '$value'"
@@ -50,7 +51,7 @@ class ModelMapper(
     } catch (e: Exception) {
       if (reportError) {
         context.report(
-          issue = RevisitDateDetector.ISSUE,
+          issue = issue,
           scope = node,
           location = context.getLocation(node),
           message = "Field '$fieldName' was not found"
