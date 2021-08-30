@@ -11,7 +11,10 @@ The annotations are used in the following ways:
 The `RevisitByDate` annotation allows you to specify a date in the future when something should be revisited.
 
 ```kotlin
-@RevisitByDate(year = 3000, month = 1, day = 1, reason = "For testing purposes")
+import com.lachlanmckee.revisit.Month
+import com.lachlanmckee.revisit.RevisitByDate
+
+@RevisitByDate(day = 1, month = Month.JANUARY, year = 3000, reason = "For testing purposes")
 fun foo() {
 }
 ```
@@ -21,7 +24,10 @@ fun foo() {
 The `RevisitFromDate` annotation allows you to specify a date (typically the date which the annotation was added) and a number of days in the future when something should be revisited.
 
 ```kotlin
-@RevisitFromDate(year = 2000, month = 1, day = 1, daysInFuture = 365, reason = "For testing purposes")
+import com.lachlanmckee.revisit.Month
+import com.lachlanmckee.revisit.RevisitFromDate
+
+@RevisitFromDate(day = 1, month = Month.JANUARY, year = 2000, delay = RevisitFromDate.Delay.ONE_MONTH, reason = "For testing purposes")
 fun foo() {
 }
 ```

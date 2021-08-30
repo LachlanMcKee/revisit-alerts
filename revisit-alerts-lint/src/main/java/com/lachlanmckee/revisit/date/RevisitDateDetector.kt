@@ -14,8 +14,6 @@ import java.util.*
 class RevisitDateDetector : Detector(), SourceCodeScanner {
 
   companion object {
-    private const val DEFAULT_DAYS_IN_FUTURE = 30
-
     val ISSUE = Issue.create(
       id = "RevisitDate",
       briefDescription = "Revisit date has been exceeded",
@@ -42,15 +40,11 @@ class RevisitDateDetector : Detector(), SourceCodeScanner {
           when (node.qualifiedName) {
             "com.lachlanmckee.revisit.RevisitFromDate" -> {
               getModel(context, node) {
-                try {
-                  getIntegerValue(fieldName = "daysInFuture", reportError = false)
-                } catch (e: Exception) {
-                  DEFAULT_DAYS_IN_FUTURE
-                }
+                getEnumValue("delay", Delay::valueOf)
               }
             }
             "com.lachlanmckee.revisit.RevisitByDate" -> {
-              getModel(context, node) { 0 }
+              getModel(context, node)
             }
             else -> null
           } ?: return
@@ -78,24 +72,28 @@ class RevisitDateDetector : Detector(), SourceCodeScanner {
   private fun getModel(
     context: JavaContext,
     annotation: UAnnotation,
-    daysInFutureFunc: ModelMapper.() -> Int
+    delayFunc: ModelMapper.() -> Delay? = { null }
   ): Model? =
     AnnotationMapper().mapToModel(context, annotation) {
       Model(
         day = getIntegerValue("day"),
-        month = getIntegerValue("month"),
+        month = getEnumValue("month", Month::valueOf),
         year = getIntegerValue("year"),
         reason = getStringValue("reason"),
-        daysInFuture = daysInFutureFunc(this)
+        delay = delayFunc(this)
       )
     }
 
   private fun mapModelToRevisitDate(context: JavaContext, node: UAnnotation, model: Model): Date? =
     try {
-      GregorianCalendar(model.year, model.month - 1, model.day)
+      GregorianCalendar(model.year, model.month.ordinal, model.day)
         .apply {
           isLenient = false
-          add(Calendar.DAY_OF_YEAR, model.daysInFuture)
+          if (model.delay != null) {
+            add(Calendar.DAY_OF_YEAR, model.delay.days)
+            add(Calendar.MONTH, model.delay.months)
+            add(Calendar.YEAR, model.delay.years)
+          }
         }
         .time
     } catch (e: Exception) {
@@ -114,9 +112,9 @@ class RevisitDateDetector : Detector(), SourceCodeScanner {
 
   private data class Model(
     val day: Int,
-    val month: Int,
+    val month: Month,
     val year: Int,
     val reason: String,
-    val daysInFuture: Int
+    val delay: Delay?
   )
 }
