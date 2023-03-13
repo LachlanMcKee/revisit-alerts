@@ -23,4 +23,4 @@ junit4 = "junit:junit:4.13.2"
 # Gradle plugins
 plugin-androidTools = "com.android.tools.build:gradle:7.0.1"
 plugin-mavenPublish = "com.vanniktech:gradle-maven-publish-plugin:0.17.0"
-plugin-dokka = "org.jetbrains.dokka:dokka-gradle-plugin:1.5.0"
+plugin-dokka = "org.jetbrains.dokka:dokka-gradle-plugin:1.8.10"
